@@ -1,6 +1,6 @@
 import ast
 from datetime import datetime
-
+import readtime
 
 
 from rest_framework import status, permissions, generics
@@ -239,7 +239,7 @@ class AddPostApi(generics.GenericAPIView):
             data['status'] = Post.STATUS_HIDDEN
         else:
             data['status'] = Post.STATUS_AWAITING_APPROVAL
-        data['reading_time'] = 5
+        data['reading_time'] = readtime.of_html(request.data.get('body')).seconds // 60
         post_serializer = AddPostSerializer(data=data)
         post_serializer.is_valid(raise_exception=True)
         post_serializer.save()
@@ -281,7 +281,7 @@ class UpdatePostApi(generics.GenericAPIView):
             data['status'] = Post.STATUS_HIDDEN
         else:
             data['status'] = Post.STATUS_AWAITING_APPROVAL
-        data['reading_time'] = 5
+        data['reading_time'] = readtime.of_html(request.data.get('body')).seconds // 60
         post_serializer = UpdatePostSerializer(post, data=data)
         post_serializer.is_valid(raise_exception=True)
         post_serializer.save()
