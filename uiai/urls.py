@@ -11,7 +11,7 @@ urlpatterns = [
     path('', include('authenticate.urls')),
     path('', include('general.urls')),
     path('user/', include('account.urls')),
-    path('storage/', include('media.urls')),
+    path('media-upload/', include('media.urls')),
     path('test', TetsApi.as_view()),
 ]
 
