@@ -234,6 +234,7 @@ class AddPostApi(generics.GenericAPIView):
         data['main_tag'] = Tag.objects.hash(request.data.get('main_tag')).id
         tags = ast.literal_eval(data['tags'])
         data['tags'] = [Tag.objects.hash(x).id for x in tags]
+        data['tags'].remove(data['main_tag'])
         if request.data.get('status') == 5:
             data['status'] = Post.STATUS_HIDDEN
         else:
@@ -275,6 +276,7 @@ class UpdatePostApi(generics.GenericAPIView):
         data['main_tag'] = Tag.objects.hash(request.data.get('main_tag')).id
         tags = ast.literal_eval(data['tags'])
         data['tags'] = [Tag.objects.hash(x).id for x in tags]
+        data['tags'].remove(data['main_tag'])
         if request.data.get('status') == 5:
             data['status'] = Post.STATUS_HIDDEN
         else:
