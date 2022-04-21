@@ -133,13 +133,12 @@ class AuthorView(generics.GenericAPIView):
 
 
 class BookmakPostProfile(generics.ListAPIView):
-    queryset = Post.objects.all()
     serializer_class = PostCardSerializer
     pagination_class = PostsListProfileSetPagination
     permission_classes = [IsAuthenticated]
 
-    # def get_queryset(self):
-    #     user = self.request.user
-    #     posts_id = user.bookmarks.value_list('post', flat=True)
-    #     posts = [Post.objects.get(id=x) for x in posts_id]
-    #     return posts
+    def get_queryset(self):
+        user = self.request.user
+        posts_id = user.bookmarks.value_list('post', flat=True)
+        posts = [Post.objects.get(id=x) for x in posts_id]
+        return posts

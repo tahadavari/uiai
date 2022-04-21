@@ -367,7 +367,7 @@ class AllTags(generics.ListAPIView):
     pagination_class = TagsArchivePagination
 
 class PostArchive(generics.ListAPIView):
-    queryset = Post.objects.filter(Post.STATUS_PUBLISHED)
+    queryset = Post.objects.filter(status=Post.STATUS_PUBLISHED)
     serializer_class = PostCardSerializer
     pagination_class = PostsArchivePagination
 
