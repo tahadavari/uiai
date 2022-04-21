@@ -85,3 +85,10 @@ class WriterRequest(BaseModel):
         User, on_delete=models.PROTECT, verbose_name=_('User'), related_name='writer_requests')
 
     accept = models.IntegerField(default=ACCEPTED_FALSE, choices=ACCEPT, verbose_name=_('accept'))
+
+    def save(self, *args, **kwargs):
+        if self.accept == True:
+            self.user.level = User.LEVEL_WRITER
+            self.user.save()
+        return super().save(*args, **kwargs)
+        
