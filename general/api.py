@@ -7,6 +7,7 @@ from blog.serializers import PostCardSerializer, PostTagSerializer
 from account.serializers import AuthorSerializer
 from blog.models import Tag, Post
 from account.models import User
+from general.landing import get_head_section_data, get_latest_posts, get_top_author,get_top_trending_tag,get_event,get_sorted_posts, get_uiai_selected
 
 
 class AboutUsApi(APIView):
@@ -103,36 +104,12 @@ class ContactFormApi(APIView):
 class LandingApi(APIView):
     def get(self, request):
         data = {
-            "head_section": [
-                PostCardSerializer(Post.objects.get(id=1), context={
-                                   'request': request}).data,
-                PostCardSerializer(Post.objects.get(id=1), context={
-                                   'request': request}).data,
-                PostCardSerializer(Post.objects.get(id=1), context={
-                                   'request': request}).data,
-                PostCardSerializer(Post.objects.get(id=1), context={
-                                   'request': request}).data,
-            ],
-            "top_trending_tags": PostTagSerializer(Tag.objects.all(), many=True, context={'request': request}).data,
-            "event": {
-                "image": "https://www.ausnewtechs.com/wp-content/uploads/2021/11/iStock-1207062970.jpg",
-                "link": "https://evand.com/events/%D8%AF%D9%88%D8%B1%D9%87-%D9%87%D8%A7%DB%8C-%D8%B1%D8%A8%D8%A7%D8%AA%DB%8C%DA%A9-%D8%AF%D8%A7%D9%86%D8%B4%DA%AF%D8%A7%D9%87-%D8%B9%D9%84%D9%85-%D9%88-%D8%B5%D9%86%D8%B9%D8%AA-%D8%A7%DB%8C%D8%B1%D8%A7%D9%86-927948393?icn=frontpage&type=recom&formula=ube&ici=11",
-            },
-            "sorted_post": {
-                "tabs": ["تب دو", "تب 1"],
-                "posts": {
-                    "تب 1": PostCardSerializer(Post.objects.all()[0:6], many=True, context={'request': request}).data,
-                    "تب دو": PostCardSerializer(Post.objects.all()[5:11], many=True, context={'request': request}).data
-                }
-            },
-            'latest_posts': PostCardSerializer(Post.objects.all()[0:15], many=True, context={'request': request}).data,
-            'uiai_selected': {
-                "tabs": ["تب چهار", "تب 3"],
-                "posts": {
-                    "تب چهار": PostCardSerializer(Post.objects.all()[0:4], many=True, context={'request': request}).data,
-                    "تب 3": PostCardSerializer(Post.objects.all()[4:8], many=True, context={'request': request}).data
-                }
-            },
-            'top_author': AuthorSerializer(User.objects.filter(level=User.LEVEL_WRITER)[0:5], many=True).data
+            "head_section":get_head_section_data(request),
+            "top_trending_tags": get_top_trending_tag(request),
+            "event": get_event() if get_event() else None,
+            "sorted_post": get_sorted_posts(request),
+            'latest_posts': get_latest_posts(request),
+            'uiai_selected': get_uiai_selected(request),
+            'top_author': get_top_author()
         }
         return Response(data, status=status.HTTP_200_OK)
