@@ -139,6 +139,6 @@ class BookmakPostProfile(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        posts_id = user.bookmarks.value_list('post', flat=True)
-        posts = [Post.objects.get(id=x) for x in posts_id]
+        bookmarks = user.bookmarks.all()
+        posts = [x.post for x in bookmarks]
         return posts
