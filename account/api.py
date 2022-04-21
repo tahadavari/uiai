@@ -12,7 +12,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from account.serializers import AuthorSerializer, ProfileSerializer, UpdateProfileSerializer,UserInfoSerializer
+from account.serializers import AuthorSerializer, ProfileSerializer, UpdateProfileSerializer, UserInfoSerializer
 from authenticate.models import EmailVerifyToken
 from core.permissions import IsAuthenticated
 
@@ -38,20 +38,25 @@ class ProfileUpdateApi(generics.GenericAPIView):
 
     def post(self, request):
         user = request.user
-        change_email = False if request.user.email == request.data.get('email') else True
-        change_phone = False if request.user.phone_number == request.data.get('phone_number') else True
+        change_email = False if request.user.email == request.data.get(
+            'email') else True
+        change_phone = False if request.user.phone_number == request.data.get(
+            'phone_number') else True
         current_password = request.data.get('current_password')
-        is_verify_current_password = check_password(current_password, request.user.password)
+        is_verify_current_password = check_password(
+            current_password, request.user.password)
         if is_verify_current_password:
             serializer_user = UpdateProfileSerializer(user, request.data)
             serializer_user.is_valid(raise_exception=True)
             user_update = serializer_user.save()
             serializer_user = ProfileSerializer(user)
             data = serializer_user.data
-            change_password = not check_password(current_password, user_update.password)
+            change_password = not check_password(
+                current_password, user_update.password)
             if change_password or change_email or change_phone:
                 if request.session.get('refresh-token'):
-                    RefreshToken(request.session.get('refresh-token')).blacklist()
+                    RefreshToken(request.session.get(
+                        'refresh-token')).blacklist()
                     del request.session['refresh-token']
 
             if change_email:
@@ -64,15 +69,17 @@ class ProfileUpdateApi(generics.GenericAPIView):
                 user.save()
 
             return Response(
-                {'user': data, 'change_email': change_email, 'change_password': change_password,'change_phone':change_phone, 'success': True})
+                {'user': data, 'change_email': change_email, 'change_password': change_password, 'change_phone': change_phone, 'success': True})
         return Response({'error': 'رمز عبور وارد شده اشتباه است'}, status=status.HTTP_400_BAD_REQUEST)
 
     def send_verify_email(self, user):
         if EmailVerifyToken.objects.filter(user=user).first():
-            email_verify_token = EmailVerifyToken.objects.filter(user=user).first()
+            email_verify_token = EmailVerifyToken.objects.filter(
+                user=user).first()
             token = email_verify_token.token
         else:
-            token = hashids_verify_email.encode(int(user.id), datetime.now().microsecond)
+            token = hashids_verify_email.encode(
+                int(user.id), datetime.now().microsecond)
             email_verify_token = EmailVerifyToken(user=user, token=token)
             email_verify_token.save()
 
@@ -81,7 +88,8 @@ class ProfileUpdateApi(generics.GenericAPIView):
             'first_name': user.first_name,
             'url': settings.EMAIL_VERIFY_URL + token
         }
-        email_content = render_to_string("email/email_verify.html", context=email_detail)
+        email_content = render_to_string(
+            "email/email_verify.html", context=email_detail)
         email = Email(email_content=email_content, email_subject=email_subject, email_type=Email.TYPE_EMAIL_VERIFY,
                       receiver_email=user.email, email_detail=email_detail)
         email.save()
@@ -91,20 +99,21 @@ class ProfileUpdateApi(generics.GenericAPIView):
 class UserInfoApi(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self,request):
+    def get(self, request):
         user = request.user
         user_serializer = UserInfoSerializer(user)
         data = user_serializer.data
-        return Response(data,status=status.HTTP_200_OK)
+        return Response(data, status=status.HTTP_200_OK)
+
 
 class WriterRequestApi(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self,request):
+    def post(self, request):
         user = request.user
         writer_request = WriterRequest(user=user)
         writer_request.save()
-        return Response({'success':True,'message':'درخاست شما با موفقیت ثبت شد'},status=status.HTTP_200_OK)
+        return Response({'success': True, 'message': 'درخاست شما با موفقیت ثبت شد'}, status=status.HTTP_200_OK)
 
 
 class AuthorAll(generics.ListAPIView):
@@ -112,22 +121,24 @@ class AuthorAll(generics.ListAPIView):
     serializer_class = AuthorSerializer
     pagination_class = AuthorAllPagination
 
+
 class AuthorView(generics.GenericAPIView):
-    def get(self,request,username):
-        
+    def get(self, request, username):
+
         if username.startswith('@'):
             username = username[1:]
         author = User.objects.get(username=username)
         data = AuthorSerializer(author).data
-        return Response(data,status=status.HTTP_200_OK)
+        return Response(data, status=status.HTTP_200_OK)
+
 
 class BookmakPostProfile(generics.ListAPIView):
-    queryset = Post.objects.all()[0:10]
     serializer_class = PostCardSerializer
     pagination_class = PostsListProfileSetPagination
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
-        posts = user.bookmarks.value_list('post',flat=True)
+        posts_id = user.bookmarks.value_list('post', flat=True)
+        posts = [Post.objects.get(id=x) for x in posts_id]
         return posts
