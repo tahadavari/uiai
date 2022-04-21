@@ -16,13 +16,7 @@ class AboutUsApi(APIView):
             'image': "https://www.ausnewtechs.com/wp-content/uploads/2021/11/iStock-1207062970.jpg",
             'about_us': Setting.objects.get(key='about.about_us').value,
             'founder': Setting.objects.get(key='about.founder').value,
-            # 'teams': TeamsSerializer(Team.objects.all(), many=True).data,
-            'teams': [{
-                'id': Team.objects.get(id=1).hash,
-                'name': Team.objects.get(id=1).name,
-                'job': Team.objects.get(id=1).description,
-                'avatar': Team.objects.get(id=1).avatar_url()
-            }],
+            'teams': TeamsSerializer(Team.objects.all(), many=True).data,
             'fast_facts': {
                 'text': Setting.objects.get(key='about.fast_facts.text').value,
                 'facts': [
