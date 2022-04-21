@@ -259,8 +259,12 @@ class UpdatePostApi(generics.GenericAPIView):
         status_post = data['status']
         data['tags'] = [{'label': x.name, 'value': x.hash} for x in tags]
         data['main_tag'] = {'label': tag.name, 'value': tag.hash}
-        data['status'] = {
-            'label': f'status {status_post}', 'value': status_post}
+        if data['status'] == 2:
+            data['status'] = {
+            'label': 'انتشار', 'value': status_post}
+        else:
+            data['status'] = {
+            'label': 'پیش نویس', 'value': status_post}
         return Response(data=data, status=status.HTTP_200_OK)
 
     def post(self, request):

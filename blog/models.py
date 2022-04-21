@@ -177,6 +177,23 @@ class Post(BaseModel):
         else:
             return "منتشر نشده"
 
+    def get_persian_status(self):
+        if self.status == Post.STATUS_PUBLISHED:
+            return "منتشر شده"
+        elif self.status == Post.STATUS_AWAITING_APPROVAL:
+            return "در انتظار تایید"
+        elif self.status == Post.STATUS_DELETE_BY_AUTHOR:
+            return "حذف شده"
+        elif self.status == Post.STATUS_DISAPPROVAL:
+            return "تایید نشده"
+        elif self.status == Post.STATUS_HIDDEN:
+            return "پیش نویس"
+        elif self.status == Post.STATUS_REPORT:
+            return "گزارش تخلف"
+        elif self.status == Post.STATUS_REVIEW:
+            return "بازبینی مجدد"
+
+
 
     @staticmethod
     def filter(filters):

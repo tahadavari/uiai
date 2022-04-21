@@ -161,7 +161,6 @@ class GetUpdatePostSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='hash'
     )
-    body = serializers.JSONField(initial=dict)
 
     class Meta:
         model = Post
@@ -179,7 +178,7 @@ class PostsListProfileSerializer(serializers.ModelSerializer):
     def get_status(self, obj):
         status_object = {
             "value": obj.status,
-            "label": obj.get_status_display()
+            "label": obj.get_persian_status()
         }
         return status_object
 
