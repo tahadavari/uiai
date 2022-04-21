@@ -30,7 +30,7 @@ class PostTagSerializer(serializers.BaseSerializer):
             "href": instance.href(),
             "taxonomy": "tag",
             "thumbnail":instance.image_url(),
-            "count" : 12,
+            "count" : instance.posts_main_tag.count() + instance.posts_tags.count(),
         }
         return data
 
