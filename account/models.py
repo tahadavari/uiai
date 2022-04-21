@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from hashids import Hashids
 
 from account.manager import MyUserManager
-from blog.models import Bookmark
+
 # from authenticate.models import EmailToken
 from core.models import BaseModel
 from django.contrib.auth.models import PermissionsMixin
