@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from hashids import Hashids
 
 from account.manager import MyUserManager
+from blog.models import Bookmark
 # from authenticate.models import EmailToken
 from core.models import BaseModel
 from django.contrib.auth.models import PermissionsMixin
@@ -74,6 +75,7 @@ class User(AbstractBaseUser, BaseModel, PermissionsMixin):
     def href(self):
         return f"/author/{self.slug()}"
 
+
 class WriterRequest(BaseModel):
     ACCEPTED_TRUE = 1
     ACCEPTED_FALSE = 0
@@ -91,4 +93,4 @@ class WriterRequest(BaseModel):
             self.user.level = User.LEVEL_WRITER
             self.user.save()
         return super().save(*args, **kwargs)
-        
+

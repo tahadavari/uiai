@@ -126,3 +126,8 @@ class BookmakPostProfile(generics.ListAPIView):
     serializer_class = PostCardSerializer
     pagination_class = PostsListProfileSetPagination
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        posts = user.bookmarks.value_list('post',flat=True)
+        return posts
