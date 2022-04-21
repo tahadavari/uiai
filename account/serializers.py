@@ -88,7 +88,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username',
-                  'avatar', 'like_count', 'comment_count', 'bookmark_count', 'post_count', 'banner_url']
+                  'avatar_url', 'like_count', 'comment_count', 'bookmark_count', 'post_count', 'banner_url']
 
     def get_like_count(self, obj):
         return obj.likes.count()

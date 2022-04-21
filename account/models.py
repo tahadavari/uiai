@@ -36,8 +36,8 @@ class User(AbstractBaseUser, BaseModel, PermissionsMixin):
     is_staff = models.BooleanField(default=False, verbose_name=_('Is staff'))
     is_active = models.BooleanField(default=True, verbose_name=_('Is active'))
     level = models.IntegerField(default=LEVEL_COMMON, choices=USER_LEVEL, verbose_name=_('Level'))
-    avatar = models.ImageField(upload_to='user/avatar', verbose_name=_('Avatar'))
-    banner = models.ImageField(upload_to='user/banner', verbose_name=_('Avatar'),null=True)
+    avatar = models.ImageField(upload_to='user/avatar', verbose_name=_('Avatar'),null=True,blank=True)
+    banner = models.ImageField(upload_to='user/banner', verbose_name=_('Banner'),null=True,blank=True)
     verify_phone_number = models.BooleanField(default=False, verbose_name=_('Verify phone number'))
     verify_email = models.BooleanField(default=False, verbose_name=_('Verify email'))
     bio = models.CharField(max_length=300, verbose_name=_('bio'), null=True, blank=True)
@@ -59,13 +59,13 @@ class User(AbstractBaseUser, BaseModel, PermissionsMixin):
         if self.avatar:
             return settings.CDN_SERVER_PREFIX + self.avatar.url
         else:
-            return None
+            return settings.CDN_SERVER_PREFIX + settings.DEFAULT_AVATAR_URL
 
     def banner_url(self):
         if self.banner:
             return settings.CDN_SERVER_PREFIX + self.banner.url
         else:
-            return None
+            return settings.CDN_SERVER_PREFIX + settings.DEFAULT_BANNER_URL
 
     def send_otp_verify_phone_number(self, phone_number):
         # send sms code
