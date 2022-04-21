@@ -108,7 +108,7 @@ class WriterRequestApi(generics.GenericAPIView):
 
 
 class AuthorAll(generics.ListAPIView):
-    queryset = User.objects.filter()
+    queryset = User.objects.filter(level=User.LEVEL_WRITER)
     serializer_class = AuthorSerializer
     pagination_class = AuthorAllPagination
 
