@@ -220,6 +220,7 @@ class Post(BaseModel):
         if filters.get('search'):
             key = filters.get('search')
             posts = posts.filter(Q(title__contains = key) | Q(description__contains = key))
+        posts = posts.filter(level=Post.STATUS_PUBLISHED)
         if not posts:
             return None
         return posts
@@ -232,6 +233,9 @@ class Post(BaseModel):
             posts = posts.order_by('-view_count')
         elif key == 'mostLike':
             posts = posts = posts.order_by('-like_count')
+        posts = posts.filter(level=Post.STATUS_PUBLISHED)
+        if not posts:
+            return None
         return posts
 
 
