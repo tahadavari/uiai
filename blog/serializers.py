@@ -193,7 +193,7 @@ class PostCardSerializer(serializers.BaseSerializer):
             "author": AuthorSerializer(instance=instance.author).data,
             "date": instance.get_string_published_at(),
             "href": instance.href(),
-            "categories": PostTagSerializer(instance=instance.tags, many=True).data,
+            "categories": PostTagSerializer(instance=instance.tags, many=True).data[0:2],
             "title": instance.title,
             "featuredImage": instance.cover_url(),
             "desc": instance.description,
