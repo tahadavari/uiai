@@ -233,9 +233,6 @@ class Post(BaseModel):
             posts = posts.order_by('-view_count')
         elif key == 'mostLike':
             posts = posts = posts.order_by('-like_count')
-        posts = posts.filter(status=Post.STATUS_PUBLISHED)
-        if not posts:
-            return None
         return posts
 
 

@@ -389,54 +389,6 @@ class PostArchive(generics.ListAPIView):
         if posts:
             if request.GET.get('sort'):
                 posts = Post.sort(posts, request.GET.get('sort'))
-
             posts = posts.filter(status=Post.STATUS_PUBLISHED)        
         return posts
-    # def get(self, request):
-    #     posts = None
-    #     if request.GET.get('tag'):
-    #         hash_tag = request.GET.get('tag').split('-')[-1]
-    #         tag = Tag.objects.hash(hash_tag)
-    #         posts = tag.posts_main_tag.all() | tag.posts_tags.all()
-    #     elif request.GET.get('username'):
-    #         username = request.GET.get('username')
-    #         if username.startswith('@'):
-    #             username=username[1:]
-    #         posts = Post.objects.filter(author__username = username)
-    #     elif request.GET.get('search'):
-    #         key = request.GET.get('search')
-    #         if key:
-    #             posts = Post.objects.filter(Q(title__contains = key) | Q(description__contains = key))
-    #         else:
-    #             posts = Post.objects.all()
-    #     if posts:
-    #         posts = posts.filter(status=Post.STATUS_PUBLISHED)
-    #     if posts == None:
-    #         return Response({
-    #                 'links': {
-    #                     'next': None,
-    #                     'previous': None
-    #                 },
-    #                 'count': 0,
-    #                 'max_page': 1,
-    #                 'posts': [],
-    #             }, status=status.HTTP_200_OK)
-        
-    #     if request.GET.get('sort'):
-    #         posts = Post.sort(posts, request.GET.get('sort'))
-
-    #     posts_paginate = self.paginate_queryset(posts)
-    #     if posts_paginate and posts != None:
-    #         return self.get_paginated_response(
-    #             PostCardSerializer(posts_paginate, many=True, context={'request': request}).data)
-
-    #     else:
-    #         return Response({
-    #                 'links': {
-    #                     'next': None,
-    #                     'previous': None
-    #                 },
-    #                 'count': 0,
-    #                 'max_page': 1,
-    #                 'posts': [],
-    #             }, status=status.HTTP_200_OK)
+    
