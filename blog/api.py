@@ -385,7 +385,8 @@ class PostArchive(generics.ListAPIView):
         elif request.GET.get('search'):
             key = request.GET.get('search')
             posts = posts.filter(Q(title__contains = key) | Q(description__contains = key))
-        posts.filter(status=Post.STATUS_PUBLISHED)
+        if posts:
+            posts.filter(status=Post.STATUS_PUBLISHED)
         if posts == None:
             return Response({
                     'links': {
@@ -396,6 +397,7 @@ class PostArchive(generics.ListAPIView):
                     'max_page': 1,
                     'posts': [],
                 }, status=status.HTTP_200_OK)
+        
         if request.GET.get('sort'):
             posts = Post.sort(posts, request.GET.get('sort'))
 
@@ -404,3 +406,13 @@ class PostArchive(generics.ListAPIView):
             return self.get_paginated_response(
                 PostCardSerializer(posts_paginate, many=True, context={'request': request}).data)
 
+        else:
+            return Response({
+                    'links': {
+                        'next': None,
+                        'previous': None
+                    },
+                    'count': 0,
+                    'max_page': 1,
+                    'posts': [],
+                }, status=status.HTTP_200_OK)
