@@ -376,7 +376,7 @@ class PostArchive(generics.ListAPIView):
         if request.GET.get('tag'):
             hash_tag = request.GET.get('tag').split('-')[-1]
             tag = Tag.objects.hash(hash_tag)
-            posts = tag.posts_main_tag.all() + tag.posts_tags.all()
+            posts = tag.posts_main_tag.all() | tag.posts_tags.all()
         elif request.GET.get('username'):
             username = request.GET.get('username')
             if username.startswith('@'):
