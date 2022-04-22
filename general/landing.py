@@ -31,7 +31,7 @@ def get_head_section_data(request):
 
 
 def get_top_trending_tag(request):
-    return PostTagSerializer(sorted(Tag.objects.all(), key=lambda tag: tag.posts_main_tag.count() + tag.posts_tags.count(), reverse=True), many=True, context={'request': request}).data
+    return PostTagSerializer(sorted(Tag.objects.all(), key=lambda tag: tag.posts_main_tag.count() + tag.posts_tags.count(), reverse=True), many=True, context={'request': request}).data[0:10]
 
 
 def get_event():
