@@ -4,7 +4,7 @@ from account.models import User
 from rest_framework import serializers
 
 from media.serializers import MediaRelatedField
-
+from blog.models import Post
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,7 +29,7 @@ class AuthorSerializer(serializers.BaseSerializer):
             "username":instance.username,
             "avatar": instance.avatar_url(),
             "banner": instance.banner_url(),
-            "count": instance.posts.count(),
+            "count": instance.posts.filter(status=Post.STATUS_PUBLISHED).count(),
             "desc": instance.bio,
             "jobName": "نویسنده",
             "href": instance.href(),
