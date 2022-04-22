@@ -116,6 +116,7 @@ def get_uiai_selected(request):
             tab3: [tab3_post1,tab3_post2,tab3_post3,tab3_post4,tab3_post5,tab3_post6],
         }
     }
+    return data
 
 
 def get_top_author():
