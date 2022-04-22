@@ -374,7 +374,7 @@ class PostArchive(generics.ListAPIView):
     def get(self, request):
         try:
             filter = {
-                'tag': request.GET.get('slug'),
+                'tag': request.GET.get('tag'),
                 'author': request.GET.get('author'),
                 'search': request.GET.get('search'),
             }
