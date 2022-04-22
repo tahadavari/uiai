@@ -39,6 +39,7 @@ def get_event():
             "image": image,
             "link": link,
         }
+        return data
     return False
 
 
