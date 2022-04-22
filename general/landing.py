@@ -26,7 +26,7 @@ def get_head_section_posts(request):
 def get_head_section_data(request):
     posts = get_head_section_posts(request)
     post = get_head_section_main_post(request)
-    posts = posts.append(post)
+    posts.append(post)
     return posts
 
 
