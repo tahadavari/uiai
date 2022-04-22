@@ -390,7 +390,7 @@ class PostArchive(generics.ListAPIView):
             if request.GET.get('sort'):
                 posts = Post.sort(posts, request.GET.get('sort'))
 
-            posts = posts.objects.filter(status=Post.STATUS_PUBLISHED)        
+            posts = posts.filter(status=Post.STATUS_PUBLISHED)        
         return posts
     # def get(self, request):
     #     posts = None
