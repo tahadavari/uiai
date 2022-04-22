@@ -24,9 +24,6 @@ class Email(BaseModel):
     email_subject = models.CharField(max_length=200)
     email_detail = models.CharField(max_length=500)
 
-    def save(self, *args, **kwargs):
-        super(Email, self).save()
-
     def send_email(self):
         email = EmailMultiAlternatives(subject=self.email_subject, from_email=settings.EMAIL_HOST_USER,
                                        to=[self.receiver_email])
