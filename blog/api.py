@@ -381,7 +381,7 @@ class PostArchive(generics.ListAPIView):
             username = request.GET.get('username')
             if username.startswith('@'):
                 username=username[1:]
-            posts = posts.filter(author__username = username)
+            posts = Post.objects.filter(author__username = username)
         elif request.GET.get('search'):
             key = request.GET.get('search')
             posts = posts.filter(Q(title__contains = key) | Q(description__contains = key))
