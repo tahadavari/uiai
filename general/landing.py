@@ -63,7 +63,7 @@ def get_latest_posts(request):
 
 
 def get_uiai_selected(request):
-    tab1 = Tag.objects.get(id=int(Setting.objects.get(key='landing.uiai_selected.tab1').value)).name
+    tab1 = Setting.objects.get(key='landing.uiai_selected.tab1').value
     tab1_post1 = PostCardSerializer(Post.objects.get(id=int(Setting.objects.get(key='landing.uiai_selected.tab1.post1').value)), context={
         'request': request}).data
     tab1_post2 = PostCardSerializer(Post.objects.get(id=int(Setting.objects.get(key='landing.uiai_selected.tab1.post2').value)), context={
@@ -77,7 +77,7 @@ def get_uiai_selected(request):
     tab1_post6 = PostCardSerializer(Post.objects.get(id=int(Setting.objects.get(key='landing.uiai_selected.tab1.post6').value)), context={
         'request': request}).data
 
-    tab2 = Tag.objects.get(id=int(Setting.objects.get(key='landing.uiai_selected.tab2').value)).name
+    tab2 = Setting.objects.get(key='landing.uiai_selected.tab2').value
     tab2_post1 = PostCardSerializer(Post.objects.get(id=int(Setting.objects.get(key='landing.uiai_selected.tab2.post1').value)), context={
         'request': request}).data 
     tab2_post2 = PostCardSerializer(Post.objects.get(id=int(Setting.objects.get(key='landing.uiai_selected.tab2.post2').value)), context={
@@ -91,7 +91,7 @@ def get_uiai_selected(request):
     tab2_post6 = PostCardSerializer(Post.objects.get(id=int(Setting.objects.get(key='landing.uiai_selected.tab2.post6').value)), context={
         'request': request}).data
 
-    tab3 = Tag.objects.get(id=int(Setting.objects.get(key='landing.uiai_selected.tab3').value)).name
+    tab3 = Setting.objects.get(key='landing.uiai_selected.tab3').value
     tab3_post1 = PostCardSerializer(Post.objects.get(id=int(Setting.objects.get(key='landing.uiai_selected.tab3.post1').value)), context={
         'request': request}).data
     tab3_post2 = PostCardSerializer(Post.objects.get(id=int(Setting.objects.get(key='landing.uiai_selected.tab3.post2').value)), context={
