@@ -24,7 +24,10 @@ def get_head_section_posts(request):
 
 
 def get_head_section_data(request):
-    return get_head_section_posts(request).append(get_head_section_main_post(request))
+    posts = get_head_section_posts(request)
+    post = get_head_section_main_post(request)
+    posts = posts.append(post)
+    return posts
 
 
 def get_top_trending_tag(request):
