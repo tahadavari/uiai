@@ -3,17 +3,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from general.serializers import SocialSerializer, TeamsSerializer
-from blog.serializers import PostCardSerializer, PostTagSerializer
-from account.serializers import AuthorSerializer
-from blog.models import Tag, Post
-from account.models import User
 from general.landing import get_head_section_data, get_latest_posts, get_top_author,get_top_trending_tag,get_event,get_sorted_posts, get_uiai_selected
 
 
 class AboutUsApi(APIView):
     def get(self, reauest):
         data = {
-            'image': "https://www.ausnewtechs.com/wp-content/uploads/2021/11/iStock-1207062970.jpg",
+            'image': Setting.objects.get(key='about.image').value,
             'about_us': Setting.objects.get(key='about.about_us').value,
             'founder': Setting.objects.get(key='about.founder').value,
             'teams': TeamsSerializer(Team.objects.all(), many=True).data,
