@@ -362,7 +362,7 @@ class OtherTags(generics.GenericAPIView):
 
 
 class AllTags(generics.ListAPIView):
-    queryset = sorted(Tag.objects.all(), key=lambda tag: tag.posts_main_tag.count() + tag.posts_tags.count(), reverse=True)
+    queryset = Tag.objects.all()
     serializer_class = PostTagSerializer
     pagination_class = TagsArchivePagination
 
