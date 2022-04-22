@@ -28,7 +28,7 @@ class Email(BaseModel):
         super(Email, self).save()
 
     def send_email(self):
-        email = EmailMultiAlternatives(subject=self.email_subject, from_email='انجمن هوش مصنوعی دانشگاه اصفهان',
+        email = EmailMultiAlternatives(subject=self.email_subject, from_email=settings.EMAIL_HOST_USER,
                                        to=[self.receiver_email])
         email.attach_alternative(self.email_content, "text/html")
         email.send()
