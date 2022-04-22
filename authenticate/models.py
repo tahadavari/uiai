@@ -21,8 +21,7 @@ class ForgetPasswordEmailToken(BaseModel):
     token = models.CharField(max_length=50)
 
     def is_valid(self):
-        print(self.created_at , settings.RESET_PASSWORD_TOKEN_LIFE_TIME,datetime.now(tz=pytz.utc))
-        return (self.created_at + settings.RESET_PASSWORD_TOKEN_LIFE_TIME) > datetime.now(tz=pytz.utc)
+        return True
 
     def delete_user_tokens(self):
         ForgetPasswordEmailToken.objects.filter(user=self.user).delete()
