@@ -12,7 +12,7 @@ class AboutUsApi(APIView):
             'image': Setting.objects.get(key='about.image').value,
             'about_us': Setting.objects.get(key='about.about_us').value,
             'founder': Setting.objects.get(key='about.founder').value,
-            'teams': TeamsSerializer(Team.objects.all(), many=True).data[0],
+            'teams': TeamsSerializer(Team.objects.all(), many=True).data,
             'fast_facts': {
                 'text': Setting.objects.get(key='about.fast_facts.text').value,
                 'facts': [
