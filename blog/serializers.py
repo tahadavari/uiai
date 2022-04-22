@@ -170,7 +170,7 @@ class GetUpdatePostSerializer(serializers.ModelSerializer):
 
 class PostsListProfileSerializer(serializers.ModelSerializer):
     status = serializers.SerializerMethodField(method_name='get_status')
-
+    cover  = serializers.SerializerMethodField(method_name='get_cover_url')
     class Meta:
         model = Post
         fields = ['hash', 'title', 'cover', 'view_count', 'status', 'slug']
@@ -181,6 +181,9 @@ class PostsListProfileSerializer(serializers.ModelSerializer):
             "label": obj.get_persian_status()
         }
         return status_object
+        
+    def get_cover_url(self, obj):
+        return obj.cover_url()
 
 
 class PostCardSerializer(serializers.BaseSerializer):
