@@ -384,7 +384,7 @@ class PostArchive(generics.ListAPIView):
             posts = Post.objects.filter(author__username = username)
         elif request.GET.get('search'):
             key = request.GET.get('search')
-            if key and len(key)>=3:
+            if key:
                 posts = Post.objects.filter(Q(title__contains = key) | Q(description__contains = key))
             else:
                 posts = Post.objects.all()
