@@ -15,11 +15,11 @@ def get_head_section_main_post(request):
 
 def get_head_section_posts(request):
     most_liked = PostCardSerializer(Post.objects.filter(published_at__range=[datetime.now(
-    )-timedelta(days=7), datetime.now()]).order_by("-like_count")[0], context={'request': request}).data
+    )-timedelta(days=100), datetime.now()]).order_by("-like_count")[0], context={'request': request}).data
     most_view = PostCardSerializer(Post.objects.filter(published_at__range=[datetime.now(
-    )-timedelta(days=7), datetime.now()]).order_by("-view_count")[0], context={'request': request}).data
+    )-timedelta(days=100), datetime.now()]).order_by("-view_count")[0], context={'request': request}).data
     most_saved = PostCardSerializer(Post.objects.filter(published_at__range=[datetime.now(
-    )-timedelta(days=7), datetime.now()]).order_by("-bookmark_count")[0], context={'request': request}).data
+    )-timedelta(days=100), datetime.now()]).order_by("-bookmark_count")[0], context={'request': request}).data
     return [most_liked, most_view, most_saved]
 
 
